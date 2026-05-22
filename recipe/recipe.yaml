@@ -88,7 +88,7 @@ tests:
         - pytest-forked
         - pytest-timeout
         - gevent
-        - tango-test =3.12
+        - tango-test = 3.14
 
 about:
   summary: Python binding for the TANGO control system

@@ -1,0 +1,104 @@
+Subject: [PATCH] Revert 973
+---
+Index: tango/globals.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tango/globals.py b/tango/globals.py
+--- a/tango/globals.py	(revision 21526f5bfffdcae3526ccee72cc744dffd379519)
++++ b/tango/globals.py	(date 1779797510222)
+@@ -62,14 +62,6 @@
+     return None
+ 
+ 
+-def cleanup_classes():
+-    global class_list
+-    global cpp_class_list
+-
+-    class_list.clear()
+-    cpp_class_list.clear()
+-
+-
+ def get_constructed_classes():
+     global constructed_class
+     return constructed_class
+Index: doc/how-to/testing/testing_approaches.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/doc/how-to/testing/testing_approaches.md b/doc/how-to/testing/testing_approaches.md
+--- a/doc/how-to/testing/testing_approaches.md	(revision 21526f5bfffdcae3526ccee72cc744dffd379519)
++++ b/doc/how-to/testing/testing_approaches.md	(date 1779797510214)
+@@ -148,21 +148,11 @@
+ 
+ ## Issues
+ 
+-### Before PyTango 10.3.0
+-
+ > 1. A single process that attempts to use a {class}`~tango.test_context.DeviceTestContext` multiple times in threaded mode (so kwarg `process=False`, or unspecified), will get a segmentation fault on the second usage.  The segfault can be avoided using the [pytest-forked](https://pypi.org/project/pytest-forked) plugin to run tests in separate processes (Linux and macOS, but not Windows).  Either mark individual tests with the `@pytest.mark.forked` decorator, or use the `pytest --forked` command line option to run every test in a new process.  Running each test in a new process slows things down, so consider if all tests or just some tests need this.
+ > 2. Another way to avoid the segfault with multiple uses of  {class}`~tango.test_context.DeviceTestContext` is by setting the kwarg `process=True`.  In this case we don't need the forked execution, but consider the disadvantages in the previous section.
+-
+-### From PyTango 10.3.0
+-
+-> 1. Starting from PyTango 10.3.0 the {class}`~tango.test_context.DeviceTestContext` can be restarted multiple times in threaded mode (so kwarg `process=False`, or unspecified) in Linux and macOS. But this still does not work in Windows due to a bug in omniORB. In Windows you still must run each test in a separate pytest session.
+-> 2. If you restart multiple times the {class}`~tango.test_context.DeviceTestContext`, you cannot change GreenMode. This can be avoided using the [pytest-forked](https://pypi.org/project/pytest-forked) plugin to run tests in separate processes (Linux and macOS, but not Windows).  Either mark individual tests with the `@pytest.mark.forked` decorator, or use the `pytest --forked` command line option to run every test in a new process. Running each test in a new process slows things down, so consider if all tests or just some tests need this.
+-
+-### Common issues
+-
+-> 4. Forwarded attributes do not work.
+-> 5. There is no way to unit test (in the strict definition), since the Tango device objects cannot be directly instantiated.
+-> 6. The {class}`~tango.test_context.DeviceTestContext` is quite a heavyweight utility class in terms of the dependent components it needs to orchestrate so that testing can be done. It requires the Tango runtime, including ZeroMQ for events, and a Database stub file as a minimum.
++> 3. Forwarded attributes do not work.
++> 4. There is no way to unit test (in the strict definition), since the Tango device objects cannot be directly instantiated.
++> 5. The {class}`~tango.test_context.DeviceTestContext` is quite a heavyweight utility class in terms of the dependent components it needs to orchestrate so that testing can be done. It requires the Tango runtime, including ZeroMQ for events, and a Database stub file as a minimum.
+ 
+ :::{note}
+ The same issues apply to {class}`~tango.test_context.MultiDeviceTestContext`.
+Index: tango/server.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tango/server.py b/tango/server.py
+--- a/tango/server.py	(revision 21526f5bfffdcae3526ccee72cc744dffd379519)
++++ b/tango/server.py	(date 1779797510206)
+@@ -36,7 +36,6 @@
+     run_in_executor,
+     set_worker,
+ )
+-from tango.globals import cleanup_classes
+ from tango.green import get_executor, get_green_mode
+ from tango.pyutil import Util
+ from tango.telemetry import get_telemetry_tracer_provider_factory
+@@ -2003,18 +2002,10 @@
+         util.server_init()
+         worker.execute(post_init_callback)
+         write("Ready to accept request\n")
+-        try:
+-            util.server_run()
+-            log.debug("server loop exit")
+-            util.server_cleanup()
+-            log.debug("server cleaned up")
+-        finally:
+-            Util.cleanup()
+-            log.debug("Util cleaned up")
+-            cleanup_classes()
+-            log.debug("classes cleaned up")
++        util.server_run()
+ 
+     worker.run(tango_loop, wait=True)
++    return util
+ 
+ 
+ def run(
+@@ -2029,7 +2020,7 @@
+     green_mode=None,
+     raises=False,
+     err_stream=sys.stderr,
+-):
++) -> Util:
+     """
+     Provides a simple way to run a tango server. It handles exceptions
+     by writting a message to the msg_stream.

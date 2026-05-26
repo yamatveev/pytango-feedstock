@@ -2,7 +2,7 @@ schema_version: 1
 
 context:
   name: pytango
-  version: 10.1.0rc3
+  version: 10.3.0rc1
 
 package:
   name: ${{ name|lower }}
@@ -10,10 +10,10 @@ package:
 
 source:
   url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/${{ name }}-${{ version }}.tar.gz
-  sha256: b4deb2f61376e7bb8b84e5484f4fdf2bac325614de2e408d62e2f5839e979f16
+  sha256: 19efab65eb495c2085eddfa7f7f0669153c22b75070dec5bf9e10d9e56333de7
 
 build:
-  number: 1
+  number: 0
   skip: match(python, "<3.10")
   script: ${{ PYTHON }} -m pip install . -vv
 
@@ -35,7 +35,7 @@ requirements:
     - python
     - pip
     - cppzmq
-    - cpptango >=10.1.1,<10.2.0a0
+    - cpptango >=10.3.1,<10.4.0a0
     - pybind11 >=3.0.1
     - numpy
     - omniorb-libs
@@ -65,10 +65,12 @@ tests:
         - tango
   - script:
       # Skip some flaky tests
-      - if: unix and not aarch64
+      - if: linux and not aarch64
         then: pytest -k "not test_attribute_poll and not test_async_events_subscription" || pytest --lf
-      - if: aarch64
+      - if: aarch64 and not osx
         then: pytest -k "not test_subscribe_data_ready_event and not test_attribute_poll and not test_async_events_subscription and not test_databaseds.py" || pytest --lf
+      - if: osx
+        then: pytest -k "not test_attribute_poll and not test_async_events_subscription and not test_telemetry.py" || pytest --lf
       # Only basic tests on windows
       - if: win
         then:
@@ -88,7 +90,7 @@ tests:
         - pytest-forked
         - pytest-timeout
         - gevent
-        - tango-test =3.12
+        - tango-test = 3.14
 
 about:
   summary: Python binding for the TANGO control system
@@ -101,6 +103,6 @@ about:
 
 extra:
   recipe-maintainers:
-    - yamedvedya
+    - yamatveev
     - beenje
     - ajoubertza

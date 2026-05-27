@@ -5,7 +5,7 @@
 
 [workspace]
 name = "pytango-feedstock"
-version = "3.61.2"  # conda-smithy version used to generate this file
+version = "3.62.0"  # conda-smithy version used to generate this file
 description = "Pixi configuration for conda-forge/pytango-feedstock"
 authors = ["@conda-forge/pytango"]
 channels = ["conda-forge"]
@@ -13,7 +13,7 @@ platforms = ["linux-64", "linux-aarch64", "osx-64", "osx-arm64", "win-64"]
 requires-pixi = ">=0.59.0"
 
 [dependencies]
-conda-build = ">=24.1"
+conda-build = ">=26.3"
 conda-forge-ci-setup = "4.*"
 rattler-build = "*"
 
@@ -83,96 +83,6 @@ description = "Build pytango-feedstock with variant linux_aarch64_python3.14.___
 [tasks."inspect-linux_aarch64_python3.14.____cp314"]
 cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/linux_aarch64_python3.14.____cp314.yaml"
 description = "List contents of pytango-feedstock packages built for variant linux_aarch64_python3.14.____cp314"
-[tasks."build-osx_64_python3.10.____cpython"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_64_python3.10.____cpython.yaml"
-description = "Build pytango-feedstock with variant osx_64_python3.10.____cpython directly (without setup scripts)"
-[tasks."inspect-osx_64_python3.10.____cpython"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_64_python3.10.____cpython.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_64_python3.10.____cpython"
-[tasks."build-osx_64_python3.11.____cpython"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_64_python3.11.____cpython.yaml"
-description = "Build pytango-feedstock with variant osx_64_python3.11.____cpython directly (without setup scripts)"
-[tasks."inspect-osx_64_python3.11.____cpython"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_64_python3.11.____cpython.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_64_python3.11.____cpython"
-[tasks."build-osx_64_python3.12.____cpython"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_64_python3.12.____cpython.yaml"
-description = "Build pytango-feedstock with variant osx_64_python3.12.____cpython directly (without setup scripts)"
-[tasks."inspect-osx_64_python3.12.____cpython"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_64_python3.12.____cpython.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_64_python3.12.____cpython"
-[tasks."build-osx_64_python3.13.____cp313"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_64_python3.13.____cp313.yaml"
-description = "Build pytango-feedstock with variant osx_64_python3.13.____cp313 directly (without setup scripts)"
-[tasks."inspect-osx_64_python3.13.____cp313"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_64_python3.13.____cp313.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_64_python3.13.____cp313"
-[tasks."build-osx_64_python3.14.____cp314"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_64_python3.14.____cp314.yaml"
-description = "Build pytango-feedstock with variant osx_64_python3.14.____cp314 directly (without setup scripts)"
-[tasks."inspect-osx_64_python3.14.____cp314"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_64_python3.14.____cp314.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_64_python3.14.____cp314"
-[tasks."build-osx_arm64_python3.10.____cpython"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_arm64_python3.10.____cpython.yaml"
-description = "Build pytango-feedstock with variant osx_arm64_python3.10.____cpython directly (without setup scripts)"
-[tasks."inspect-osx_arm64_python3.10.____cpython"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_arm64_python3.10.____cpython.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_arm64_python3.10.____cpython"
-[tasks."build-osx_arm64_python3.11.____cpython"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_arm64_python3.11.____cpython.yaml"
-description = "Build pytango-feedstock with variant osx_arm64_python3.11.____cpython directly (without setup scripts)"
-[tasks."inspect-osx_arm64_python3.11.____cpython"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_arm64_python3.11.____cpython.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_arm64_python3.11.____cpython"
-[tasks."build-osx_arm64_python3.12.____cpython"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_arm64_python3.12.____cpython.yaml"
-description = "Build pytango-feedstock with variant osx_arm64_python3.12.____cpython directly (without setup scripts)"
-[tasks."inspect-osx_arm64_python3.12.____cpython"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_arm64_python3.12.____cpython.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_arm64_python3.12.____cpython"
-[tasks."build-osx_arm64_python3.13.____cp313"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_arm64_python3.13.____cp313.yaml"
-description = "Build pytango-feedstock with variant osx_arm64_python3.13.____cp313 directly (without setup scripts)"
-[tasks."inspect-osx_arm64_python3.13.____cp313"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_arm64_python3.13.____cp313.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_arm64_python3.13.____cp313"
-[tasks."build-osx_arm64_python3.14.____cp314"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/osx_arm64_python3.14.____cp314.yaml"
-description = "Build pytango-feedstock with variant osx_arm64_python3.14.____cp314 directly (without setup scripts)"
-[tasks."inspect-osx_arm64_python3.14.____cp314"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/osx_arm64_python3.14.____cp314.yaml"
-description = "List contents of pytango-feedstock packages built for variant osx_arm64_python3.14.____cp314"
-[tasks."build-win_64_python3.10.____cpython"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_python3.10.____cpython.yaml"
-description = "Build pytango-feedstock with variant win_64_python3.10.____cpython directly (without setup scripts)"
-[tasks."inspect-win_64_python3.10.____cpython"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_python3.10.____cpython.yaml"
-description = "List contents of pytango-feedstock packages built for variant win_64_python3.10.____cpython"
-[tasks."build-win_64_python3.11.____cpython"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_python3.11.____cpython.yaml"
-description = "Build pytango-feedstock with variant win_64_python3.11.____cpython directly (without setup scripts)"
-[tasks."inspect-win_64_python3.11.____cpython"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_python3.11.____cpython.yaml"
-description = "List contents of pytango-feedstock packages built for variant win_64_python3.11.____cpython"
-[tasks."build-win_64_python3.12.____cpython"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_python3.12.____cpython.yaml"
-description = "Build pytango-feedstock with variant win_64_python3.12.____cpython directly (without setup scripts)"
-[tasks."inspect-win_64_python3.12.____cpython"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_python3.12.____cpython.yaml"
-description = "List contents of pytango-feedstock packages built for variant win_64_python3.12.____cpython"
-[tasks."build-win_64_python3.13.____cp313"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_python3.13.____cp313.yaml"
-description = "Build pytango-feedstock with variant win_64_python3.13.____cp313 directly (without setup scripts)"
-[tasks."inspect-win_64_python3.13.____cp313"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_python3.13.____cp313.yaml"
-description = "List contents of pytango-feedstock packages built for variant win_64_python3.13.____cp313"
-[tasks."build-win_64_python3.14.____cp314"]
-cmd = "rattler-build build --recipe recipe -m .ci_support/win_64_python3.14.____cp314.yaml"
-description = "Build pytango-feedstock with variant win_64_python3.14.____cp314 directly (without setup scripts)"
-[tasks."inspect-win_64_python3.14.____cp314"]
-cmd = "inspect_artifacts --recipe-dir recipe -m .ci_support/win_64_python3.14.____cp314.yaml"
-description = "List contents of pytango-feedstock packages built for variant win_64_python3.14.____cp314"
 
 [feature.smithy.dependencies]
 conda-smithy = "*"

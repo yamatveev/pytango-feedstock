@@ -1,0 +1,51 @@
+Subject: [PATCH] test_tread_shutdown
+---
+Index: ext/server/device_impl.h
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ext/server/device_impl.h b/ext/server/device_impl.h
+--- a/ext/server/device_impl.h	(revision 21526f5bfffdcae3526ccee72cc744dffd379519)
++++ b/ext/server/device_impl.h	(date 1779872535520)
+@@ -84,6 +84,20 @@
+     std::string the_status;
+ 
+     ~Device_XImplTrampoline() override {
++        // [TEST] replicate cppTango MR !1648: stop the device-interface-change
++        // thread before teardown to avoid a use-after-free. join() is NOT usable
++        // here because the released thread is detached, so we poll th_running.
++        bool wait_devintr = false;
++        {
++            omni_mutex_lock lo(this->devintr_mon);
++            if(this->devintr_shared.th_running) {
++                this->devintr_shared.cmd_pending = true;
++                this->devintr_shared.cmd_code    = Tango::DEV_INTR_EXIT;
++                this->devintr_mon.signal();
++                wait_devintr = true;
++            }
++        }
++
+         // destructor must be non-throwing, while delete_device can throw:
+         try {
+             delete_device();
+@@ -94,6 +108,19 @@
+             ss << e.errors[0].desc;
+             au->print_error_message(ss.str().c_str());
+         }
++
++        // wait for the detached thread to self-terminate (max ~2s)
++        if(wait_devintr) {
++            for(int i = 0; i < 200; ++i) {
++                {
++                    omni_mutex_lock lo(this->devintr_mon);
++                    if(!this->devintr_shared.th_running) {
++                        break;
++                    }
++                }
++                omni_thread::sleep(0, 10 * 1000 * 1000); // 10 ms
++            }
++        }
+     }
+ 
+     void init_device() override {
